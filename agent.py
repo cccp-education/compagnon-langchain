@@ -15,8 +15,8 @@ async def ollama():
     # Initialiser Ollama
     llm = Ollama(
         base_url="http://localhost:11434",
-        # model="dolphin-llama3:8b",
-        model="llama3.2:3b",
+        model="dolphin-llama3:8b",
+        # model="llama3.2:3b",
         callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
     )
 
@@ -44,7 +44,7 @@ async def huggingface_chat():
     # Initialiser le modèle Hugging Face
     llm = HuggingFaceHub(
         repo_id="google/flan-t5-xxl",  # Vous pouvez changer le modèle selon vos besoins
-        model_kwargs={"temperature": 0.5, "max_length": 512},
+        model_kwargs={"temperature": 0.5, "max_length": 1024},
         huggingfacehub_api_token=HUGGINGFACE_API_KEY,
         callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
     )

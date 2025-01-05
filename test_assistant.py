@@ -6,8 +6,8 @@ from assertpy import assert_that
 from datasets import load_dataset
 from langchain_google_genai import GoogleGenerativeAI
 
-from ai.dataset import format_dataset_to_json
-from ai.agent_utils import ASSISTANT_ENV, set_environment
+from dataset import format_dataset_to_json
+from agent_utils import ASSISTANT_ENV, set_environment
 from config import GOOGLE_API_KEY
 
 
