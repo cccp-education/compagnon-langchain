@@ -51,8 +51,8 @@ async def chabot(llm):
 async def ollama():
     await chabot(Ollama(
         base_url="http://localhost:11434",
-        # model="dolphin-llama3:8b",
-        model="llama3.2:3b",
+        model="dolphin-llama3:8b",
+        # model="llama3.2:3b",
         callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
     ))
 
@@ -88,7 +88,7 @@ async def mistral_chat():
 
 
 if __name__ == '__main__':
-    asyncio.run(huggingface_chat())
-    asyncio.run(gemini_chat())
-    asyncio.run(mistral_chat())
-    # asyncio.run(ollama())
+    # asyncio.run(gemini_chat())
+    # asyncio.run(huggingface_chat())
+    # asyncio.run(mistral_chat())
+    asyncio.run(ollama())
