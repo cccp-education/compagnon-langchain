@@ -19,10 +19,6 @@ class CompagnonTestCase(TestCase):
             assert_that(os.environ[key]).is_equal_to(value)
 
     @staticmethod
-    def test_canary():
-        print("canary")
-
-    @staticmethod
     def test_dataset():
         dataset = load_dataset("imdb")
         assert_that(format_dataset_to_json(
