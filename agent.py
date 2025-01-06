@@ -56,6 +56,35 @@ async def ollama():
         print(f"Chatbot: {response.strip()}")
 
 
+async def gemini_chat():
+    # Import Gemini depuis le package langchain
+    from langchain_google_genai import ChatGoogleGenerativeAI
+
+    # Créer une chaîne LLM avec Gemini
+    chain = LLMChain(
+        llm=ChatGoogleGenerativeAI(
+            model="gemini-1.5-flash-002",
+            temperature=0.7,
+            google_api_key=GOOGLE_API_KEY,
+            callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
+        ),
+        prompt=PromptTemplate(
+            input_variables=["question"],
+            template="Répondez à la question suivante : {question}"
+        )
+    )
+
+    # Boucle principale du chatbot
+    while True:
+        user_input = input("Vous: ")
+        if user_input.lower() in ['quit', 'exit', 'bye']:
+            print("Chatbot: Au revoir !")
+            break
+
+        # Appel asynchrone à la chaîne
+        response = await chain.arun(question=user_input)
+        print(f"Chatbot: {response.strip()}")
+
 async def huggingface_chat():
     # Créer une chaîne LLM
     chain = LLMChain(llm=HuggingFaceEndpoint(
@@ -83,4 +112,5 @@ async def huggingface_chat():
 
 if __name__ == '__main__':
     # asyncio.run(ollama())
-    asyncio.run(huggingface_chat())
+    # asyncio.run(huggingface_chat())
+    asyncio.run(gemini_chat())
