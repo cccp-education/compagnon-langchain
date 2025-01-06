@@ -1,33 +1,48 @@
 # -*- coding: utf-8 -*-
 
 import asyncio
+import os
 
 from langchain.callbacks.manager import AsyncCallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
-from langchain_community.llms import HuggingFaceHub
 from langchain_community.llms import Ollama
+from langchain_huggingface import HuggingFaceEndpoint
 
-from config import HUGGINGFACE_API_KEY
+from config import (CODESTRAL_API_KEY,
+                    LANGCHAIN_TRACING_V2,
+                    HUGGINGFACE_API_KEY,
+                    GOOGLE_API_KEY,
+                    MISTRAL_API_KEY,
+                    HUGGINGFACE_MODEL)
+
+ASSISTANT_ENV = {
+    "HUGGINGFACE_API_KEY": HUGGINGFACE_API_KEY,
+    "GOOGLE_API_KEY": GOOGLE_API_KEY,
+    "MISTRAL_API_KEY": MISTRAL_API_KEY,
+    "CODESTRAL_API_KEY": CODESTRAL_API_KEY,
+    "LANGCHAIN_TRACING_V2": LANGCHAIN_TRACING_V2,
+}
+
+
+def set_environment():
+    diff = {key: value for key, value in ASSISTANT_ENV.items() if key not in os.environ}
+    if len(diff) > 0:
+        os.environ.update(diff)
+
 
 async def ollama():
-    # Initialiser Ollama
-    llm = Ollama(
+    # Créer une chaîne LLM
+    chain = LLMChain(llm=Ollama(
         base_url="http://localhost:11434",
-        model="dolphin-llama3:8b",
-        # model="llama3.2:3b",
+        # model="dolphin-llama3:8b",
+        model="llama3.2:3b",
         callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
-    )
-
-    # Créer un template de prompt
-    prompt = PromptTemplate(
+    ), prompt=PromptTemplate(
         input_variables=["question"],
         template="Répondez à la question suivante : {question}"
-    )
-
-    # Créer une chaîne LLM
-    chain = LLMChain(llm=llm, prompt=prompt)
+    ))
 
     # Boucle principale du chatbot
     while True:
@@ -40,23 +55,19 @@ async def ollama():
         response = await chain.arun(question=user_input)
         print(f"Chatbot: {response.strip()}")
 
+
 async def huggingface_chat():
-    # Initialiser le modèle Hugging Face
-    llm = HuggingFaceHub(
-        repo_id="google/flan-t5-xxl",  # Vous pouvez changer le modèle selon vos besoins
-        model_kwargs={"temperature": 0.5, "max_length": 1024},
+    # Créer une chaîne LLM
+    chain = LLMChain(llm=HuggingFaceEndpoint(
+        model=HUGGINGFACE_MODEL,
+        temperature=0.5,
+        model_kwargs={"max_length": 1024},
         huggingfacehub_api_token=HUGGINGFACE_API_KEY,
         callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
-    )
-
-    # Créer un template de prompt
-    prompt = PromptTemplate(
+    ), prompt=PromptTemplate(
         input_variables=["question"],
         template="Répondez à la question suivante : {question}"
-    )
-
-    # Créer une chaîne LLM
-    chain = LLMChain(llm=llm, prompt=prompt)
+    ))
 
     # Boucle principale du chatbot
     while True:
@@ -71,5 +82,5 @@ async def huggingface_chat():
 
 
 if __name__ == '__main__':
-    asyncio.run(ollama())
-    # asyncio.run(huggingface_chat())
+    # asyncio.run(ollama())
+    asyncio.run(huggingface_chat())
