@@ -12,6 +12,8 @@ setup(
         "langchain-mistralai>=0.2.0",
         "langchain-ollama>=0.2.0",
         "langchain-postgres>=0.0.12",
-        "langchain"
+        "langchain>=0.3.7",
+        "assertpy>=1.1",
+        "datasets>=3.2.0",
     ],
 )
