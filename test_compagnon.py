@@ -11,7 +11,7 @@ from agent import ASSISTANT_ENV, set_environment
 from config import GOOGLE_API_KEY
 
 
-class AssistantTestCase(TestCase):
+class CompagnonTestCase(TestCase):
 
     @staticmethod
     def test_canary():
