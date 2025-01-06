@@ -9,6 +9,7 @@ from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain_community.llms import Ollama
 from langchain_huggingface import HuggingFaceEndpoint
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 from config import (CODESTRAL_API_KEY,
                     LANGCHAIN_TRACING_V2,
@@ -33,7 +34,6 @@ def set_environment():
 
 
 async def ollama():
-    # Créer une chaîne LLM
     chain = LLMChain(llm=Ollama(
         base_url="http://localhost:11434",
         # model="dolphin-llama3:8b",
@@ -43,24 +43,16 @@ async def ollama():
         input_variables=["question"],
         template="Répondez à la question suivante : {question}"
     ))
-
-    # Boucle principale du chatbot
     while True:
         user_input = input("Vous: ")
         if user_input.lower() in ['quit', 'exit', 'bye']:
             print("Chatbot: Au revoir !")
             break
-
-        # Appel asynchrone à la chaîne
         response = await chain.arun(question=user_input)
         print(f"Chatbot: {response.strip()}")
 
 
 async def gemini_chat():
-    # Import Gemini depuis le package langchain
-    from langchain_google_genai import ChatGoogleGenerativeAI
-
-    # Créer une chaîne LLM avec Gemini
     chain = LLMChain(
         llm=ChatGoogleGenerativeAI(
             model="gemini-1.5-flash-002",
@@ -73,15 +65,11 @@ async def gemini_chat():
             template="Répondez à la question suivante : {question}"
         )
     )
-
-    # Boucle principale du chatbot
     while True:
         user_input = input("Vous: ")
         if user_input.lower() in ['quit', 'exit', 'bye']:
             print("Chatbot: Au revoir !")
             break
-
-        # Appel asynchrone à la chaîne
         response = await chain.arun(question=user_input)
         print(f"Chatbot: {response.strip()}")
 
