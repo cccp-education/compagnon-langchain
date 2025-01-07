@@ -16,5 +16,6 @@ setup(
         "assertpy>=1.1",
         "datasets>=3.2.0",
         "langchain-mistralai>=0.2.4",
+        "langchain-groq>=0.2.2"
     ],
 )
