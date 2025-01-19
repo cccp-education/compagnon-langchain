@@ -74,7 +74,7 @@ async def huggingface_chat():
         temperature=0.5,
         model_kwargs={"max_length": 1024},
         huggingfacehub_api_token=HUGGINGFACE_API_KEY,
-        callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
+            callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
     ))
 
 
@@ -91,6 +91,6 @@ async def mistral_chat():
 
 if __name__ == '__main__':
     # asyncio.run(ollama())
-    asyncio.run(huggingface_chat())
-    # asyncio.run(gemini_chat())
+    # asyncio.run(huggingface_chat())
+    asyncio.run(gemini_chat())
     # asyncio.run(mistral_chat())
