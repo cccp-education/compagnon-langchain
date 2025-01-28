@@ -40,57 +40,60 @@ async def chabot(llm):
         template="Répondez à la question suivante : {question}"
     ))
     while True:
+        print("To stop the chat: ':quit', ':exit', ':bye'")
         user_input = input("Vous: ")
-        if user_input.lower() in ['quit', 'exit', 'bye']:
+        if user_input.lower() in [':quit', ':exit', ':bye']:
             print("Chatbot: Au revoir !")
             break
         response = await chain.ainvoke(input=user_input)
-        print(f"Chatbot: {str(response).strip()}")
+        print(f"Chatbot: {str(response['text']).strip()}")
 
 
 async def ollama():
     await chabot(Ollama(
-        base_url="http://localhost:11434",
-         # model="dolphin3:8b-llama3.1-q8_0",
-        # model="dolphin3:8b",
+        model="smollm2:1.7b",
         # model="llama3.2:3b",
-        model="llama3.2:3b-instruct-q8_0",
+        # model="llama3.2:3b-instruct-q8_0",
+        # model="dolphin3:8b",
+        # model="dolphin3:8b-llama3.1-q8_0",
+        base_url="http://localhost:11434",
         callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
     ))
 
 
 async def gemini_chat():
     await chabot(ChatGoogleGenerativeAI(
+        api_key=GOOGLE_API_KEY,
         model="gemini-1.5-flash-002",
         temperature=0.7,
-        google_api_key=GOOGLE_API_KEY,
         callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
     ))
 
 
 async def huggingface_chat():
     await chabot(HuggingFaceEndpoint(
+        huggingfacehub_api_token=HUGGINGFACE_API_KEY,
         model=HUGGINGFACE_MODEL,
         temperature=0.5,
         model_kwargs={"max_length": 1024},
-        huggingfacehub_api_token=HUGGINGFACE_API_KEY,
-            callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
+        callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
     ))
 
 
 async def mistral_chat():
     await chabot(ChatMistralAI(
-        # model="mistral-large-latest",
-        model="ministral-8b-latest",
+        # model_name="mistral-large-latest",
+        # model_name="ministral-8b-latest",
+        api_key=MISTRAL_API_KEY,
+        model_name="ministral-8b-latest",
         temperature=0.7,
         max_retries=2,
-        mistral_api_key=MISTRAL_API_KEY,
         callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]))
     )
 
 
 if __name__ == '__main__':
-    # asyncio.run(ollama())
-    # asyncio.run(huggingface_chat())
-    asyncio.run(gemini_chat())
+    # asyncio.run(gemini_chat())
     # asyncio.run(mistral_chat())
+    # asyncio.run(huggingface_chat())
+    # asyncio.run(ollama())

@@ -1,4 +1,4 @@
-from agent import *
+from chatbots import *
 from dataset import *
 from config import *
 

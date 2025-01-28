@@ -6,7 +6,7 @@ from assertpy import assert_that
 from datasets import load_dataset
 from langchain_google_genai import GoogleGenerativeAI
 
-from agent import ASSISTANT_ENV, set_environment
+from chatbots import ASSISTANT_ENV, set_environment
 from config import GOOGLE_API_KEY
 from dataset import format_dataset_to_json
 
