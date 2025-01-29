@@ -93,7 +93,7 @@ async def mistral_chat():
 
 
 if __name__ == '__main__':
-    # asyncio.run(gemini_chat())
+    asyncio.run(gemini_chat())
     # asyncio.run(mistral_chat())
     # asyncio.run(huggingface_chat())
     # asyncio.run(ollama())
