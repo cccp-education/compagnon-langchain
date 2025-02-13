@@ -74,7 +74,7 @@ async def huggingface_chat():
     await chabot(HuggingFaceEndpoint(
         huggingfacehub_api_token=HUGGINGFACE_API_KEY,
         model=HUGGINGFACE_MODEL,
-        temperature=0.5,
+        temperature=0.7,
         model_kwargs={"max_length": 1024},
         callback_manager=AsyncCallbackManager([StreamingStdOutCallbackHandler()]),
     ))
