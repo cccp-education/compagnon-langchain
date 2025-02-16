@@ -12,12 +12,13 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_huggingface import HuggingFaceEndpoint
 from langchain_mistralai.chat_models import ChatMistralAI
 
-from config import (CODESTRAL_API_KEY,
-                    LANGCHAIN_TRACING_V2,
-                    HUGGINGFACE_API_KEY,
-                    GOOGLE_API_KEY,
-                    MISTRAL_API_KEY,
-                    HUGGINGFACE_MODEL)
+from config import (
+    CODESTRAL_API_KEY,
+    LANGCHAIN_TRACING_V2,
+    HUGGINGFACE_API_KEY,
+    GOOGLE_API_KEY,
+    MISTRAL_API_KEY,
+    HUGGINGFACE_MODEL)
 
 ASSISTANT_ENV = {
     "HUGGINGFACE_API_KEY": HUGGINGFACE_API_KEY,
@@ -25,6 +26,11 @@ ASSISTANT_ENV = {
     "MISTRAL_API_KEY": MISTRAL_API_KEY,
     "CODESTRAL_API_KEY": CODESTRAL_API_KEY,
     "LANGCHAIN_TRACING_V2": LANGCHAIN_TRACING_V2,
+}
+
+talk = {
+    "greetings": "Bonjour le monde!",
+    "topic": """Le sujet qui m'intéresse ce sont les LLMs(Large Language Model) et les agents."""
 }
 
 
